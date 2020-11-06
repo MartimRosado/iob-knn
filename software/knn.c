@@ -5,7 +5,7 @@
 #include "iob_knn.h"
 #include "random.h" //random generator for bare metal
 
-//uncomment to use rand from C lib 
+//uncomment to use rand from C lib
 //#define cmwc_rand rand
 
 #ifdef DEBUG //type make DEBUG=1 to print debug info
@@ -15,11 +15,11 @@
 #define C 4   //number data classes
 #define M 4   //number samples to be classified
 #else
-#define S 12   
+#define S 12
 #define N 100000
-#define K 10  
-#define C 4  
-#define M 100 
+#define K 10
+#define C 4
+#define M 100
 #endif
 
 #define INFINITE ~0
@@ -72,10 +72,7 @@ int main() {
 
   //init uart and timer
   uart_init(UART_BASE, FREQ/BAUD);
-  uart_printf("\nInit timer\n");
-  uart_txwait();
 
-  timer_init(TIMER_BASE);
   //read current timer count, compute elapsed time
   //elapsed  = timer_get_count();
   //elapsedu = timer_time_us();
@@ -84,7 +81,7 @@ int main() {
   //int vote accumulator
   int votes_acc[C] = {0};
 
-  //generate random seed 
+  //generate random seed
   random_init(S);
 
   //init dataset
@@ -104,7 +101,7 @@ int main() {
   for (int i=0; i<N; i++)
     uart_printf("%d \t%d \t%d \t%d\n", i, data[i].x,  data[i].y, data[i].label);
 #endif
-  
+
   //init test points
   for (int k=0; k<M; k++) {
     x[k].x  = (short) cmwc_rand();
@@ -118,13 +115,18 @@ int main() {
   for (int k=0; k<M; k++)
     uart_printf("%d \t%d \t%d\n", k, x[k].x, x[k].y);
 #endif
-  
+
   //
   // PROCESS DATA
   //
 
   //start knn here
-  
+
+  uart_printf("\nInit timer\n");
+  uart_txwait();
+
+  timer_init(TIMER_BASE);
+
   for (int k=0; k<M; k++) { //for all test points
   //compute distances to dataset points
 
@@ -157,7 +159,7 @@ int main() {
 
     }
 
-    
+
     //classify test point
 
     //clear all votes
@@ -176,13 +178,13 @@ int main() {
     x[k].label = best_voted;
 
     votes_acc[best_voted]++;
-    
+
 #ifdef DEBUG
     uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].x, x[k].y);
     uart_printf("K \tIdx \tX \tY \tDist \t\tLabel\n");
     for (int j=0; j<K; j++)
       uart_printf("%d \t%d \t%d \t%d \t%d \t%d\n", j+1, neighbor[j].idx, data[neighbor[j].idx].x,  data[neighbor[j].idx].y, neighbor[j].dist,  data[neighbor[j].idx].label);
-    
+
     uart_printf("\n\nCLASSIFICATION of x[%d]:\n", k);
     uart_printf("X \tY \tLabel\n");
     uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
@@ -196,12 +198,10 @@ int main() {
   elapsedu = timer_time_us(TIMER_BASE);
   uart_printf("\nExecution time: %dus @%dMHz\n\n", elapsedu, FREQ/1000000);
 
-  
+
   //print classification distribution to check for statistical bias
   for (int l=0; l<C; l++)
     uart_printf("%d ", votes_acc[l]);
   uart_printf("\n");
-  
+
 }
-
-
