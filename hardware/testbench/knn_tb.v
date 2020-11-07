@@ -11,7 +11,8 @@ module knn_tb;
 
    `SIGNAL(KNN_ENABLE, 1)
    `SIGNAL(KNN_SAMPLE, 1)
-   `SIGNAL_OUT(KNN_VALUE, 2*`DATA_W)
+   `SIGNAL_OUT(KNN_VALUE, `DATA_W)
+   `SIGNAL(KNN_DATA_IN, `DATA_W)
 
    initial begin
 `ifdef VCD
@@ -24,21 +25,20 @@ module knn_tb;
       @(posedge rst);
       @(negedge rst);
       @(posedge clk) #1 KNN_ENABLE = 1;
-      @(posedge clk) #1 KNN_SAMPLE = 1;
-      @(posedge clk) #1 KNN_SAMPLE = 0;
+      @(posedge clk) #1 KNN_DATA_IN = 4;
+      @(posedge clk) #1 KNN_DATA_IN = 3;
+      @(posedge clk) #1 KNN_DATA_IN = 2;
+      @(posedge clk) #1 KNN_DATA_IN = 1;
 
-      //uncomment to fail the test
-      //@(posedge clk) #1;
-
-      $write("Current time: %d; Timer value %d\n", $time, KNN_VALUE);
+      $write("Ax = 4\nBx = 3\nAy = 2\nBy = 1\n");
       #(1000*PER) @(posedge clk) #1 KNN_SAMPLE = 1;
       @(posedge clk) #1 KNN_SAMPLE = 0;
-      $write("Current time: %d; Timer value %d\n", $time, KNN_VALUE);
+      $write("Current time: %d; Square Distance %d\n", $time, KNN_VALUE);
 
-      if( KNN_VALUE == 1003)
+      if( KNN_VALUE == 0)
         $display("Test passed");
       else
-        $display("Test failed: expecting knn value 1003 but got %d", KNN_VALUE);
+        $display("Test failed: expecting knn value 0 but got %d", KNN_VALUE);
 
       $finish;
    end
@@ -49,6 +49,7 @@ module knn_tb;
       .KNN_ENABLE(KNN_ENABLE),
       .KNN_SAMPLE(KNN_SAMPLE),
       .KNN_VALUE(KNN_VALUE),
+      .KNN_DATA_IN(KNN_DATA_IN),
       .clk(clk),
       .rst(rst)
       );

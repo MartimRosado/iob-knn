@@ -13,7 +13,13 @@ sim-waves:
 fpga:
 	make -C $(FPGA_DIR) run DATA_W=$(DATA_W)
 
+#doc:
+#	make -C document/$(DOC_TYPE) $(DOC_TYPE).pdf
+
+#doc-clean:
+#	make -C document/$(DOC_TYPE) clean
+
 fpga-clean:
 	make -C $(FPGA_DIR) clean
 
-clean: sim-clean fpga-clean
+clean: sim-clean fpga-clean #doc-clean
