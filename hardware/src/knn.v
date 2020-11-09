@@ -24,10 +24,10 @@ module knn_core
     `SIGNAL(AyEN, 1)
     `SIGNAL(ByEN, 1)
     //Fazer and dos enables com o enable geral
-    `REG_E(clk, AxEN, Ax, KNN_DATA_IN)
-    `REG_E(clk, BxEN, Bx, KNN_DATA_IN)
-    `REG_E(clk, AyEN, Ay, KNN_DATA_IN)
-    `REG_E(clk, ByEN, By, KNN_DATA_IN)
+    `REG_RE(clk, rst, 0, AxEN & KNN_ENABLE, Ax, KNN_DATA_IN)
+    `REG_RE(clk, rst, 0, BxEN & KNN_ENABLE, Bx, KNN_DATA_IN)
+    `REG_RE(clk, rst, 0, AyEN & KNN_ENABLE, Ay, KNN_DATA_IN)
+    `REG_RE(clk, rst, 0, ByEN & KNN_ENABLE, By, KNN_DATA_IN)
 
     `REG_RE(clk, rst, 0, KNN_ENABLE, Curr_state, Next_state)
     `SIGNAL(Curr_state, 3)
@@ -35,29 +35,43 @@ module knn_core
 
     `SIGNAL2OUT(KNN_VALUE, DIST_OUT)
 
-    always @ (posedge clk, Curr_state)
+    always @ (posedge clk or Curr_state)
     begin
-      AxEN = 0;
-      BxEN = 0;
-      AyEN = 0;
-      ByEN = 0;
+      AxEN = 1'b0;
+      BxEN = 1'b0;
+      AyEN = 1'b0;
+      ByEN = 1'b0;
 
-      Next_state = Curr_state + 1;
-
-      if(Curr_state == 0) AxEN = 1'b1;
-      else if(Curr_state == 1) BxEN = 1'b1;
-      else if(Curr_state == 2) AyEN = 1'b1;
-      else if(Curr_state == 3) ByEN = 1'b1;
-      else Next_state = Curr_state;
+      case(Curr_state)
+        3'd0: begin
+          AxEN = 1'b1;
+          Next_state = 3'd1;
+        end
+        3'd1: begin
+          BxEN = 1'b1;
+          Next_state = 3'd2;
+        end
+        3'd2: begin
+          AyEN = 1'b1;
+          Next_state = 3'd3;
+        end
+        3'd3: begin
+          ByEN = 1'b1;
+          Next_state = 3'd4;
+        end
+        default: begin
+          Next_state = Curr_state;
+        end
+      endcase
     end
 
     dist_core dist1
       (
       .DIST_OUT(DIST_OUT),
-      .Ax(KNN_DATA_IN), //por os Ax, Bx, Ay, By que saem dos registos
-      .Bx(KNN_DATA_IN),
-      .Ay(KNN_DATA_IN),
-      .By(KNN_DATA_IN)
+      .Ax(Ax),
+      .Bx(Bx),
+      .Ay(Ay),
+      .By(By)
       );
 
 

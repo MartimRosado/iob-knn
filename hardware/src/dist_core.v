@@ -24,7 +24,7 @@ module dist_core
     X_DIFF = Ax - Bx;
     X_SQR = X_DIFF * X_DIFF;
     Y_DIFF = Ay - By;
-    Y_SQR = Y_DIFF - Y_DIFF;
+    Y_SQR = Y_DIFF * Y_DIFF;
     DIST_VALUE = X_SQR + Y_SQR;
     //As multiplicações já estão  truncadas?
 

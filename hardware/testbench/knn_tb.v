@@ -19,26 +19,28 @@ module knn_tb;
       $dumpfile("knn.vcd");
       $dumpvars();
 `endif
-      KNN_ENABLE = 0;
+
       KNN_SAMPLE = 0;
+      KNN_ENABLE = 0;
+      KNN_DATA_IN = 16'b0;
 
       @(posedge rst);
       @(negedge rst);
-      @(posedge clk) #1 KNN_ENABLE = 1;
-      @(posedge clk) #1 KNN_DATA_IN = 4;
-      @(posedge clk) #1 KNN_DATA_IN = 3;
-      @(posedge clk) #1 KNN_DATA_IN = 2;
-      @(posedge clk) #1 KNN_DATA_IN = 1;
+      KNN_ENABLE = 1;
+      @(posedge clk) #1 KNN_DATA_IN = 16'b100;
+      @(posedge clk) #1 KNN_DATA_IN = 16'b11;
+      @(posedge clk) #1 KNN_DATA_IN = 16'b10;
+      @(posedge clk) #1 KNN_DATA_IN = 16'b1;
 
       $write("Ax = 4\nBx = 3\nAy = 2\nBy = 1\n");
       #(1000*PER) @(posedge clk) #1 KNN_SAMPLE = 1;
       @(posedge clk) #1 KNN_SAMPLE = 0;
       $write("Current time: %d; Square Distance %d\n", $time, KNN_VALUE);
 
-      if( KNN_VALUE == 0)
+      if( KNN_VALUE == 1)
         $display("Test passed");
       else
-        $display("Test failed: expecting knn value 0 but got %d", KNN_VALUE);
+        $display("Test failed: expecting knn value 1 but got %d", KNN_VALUE);
 
       $finish;
    end
