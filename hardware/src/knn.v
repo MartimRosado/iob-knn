@@ -3,17 +3,17 @@
 
 module knn_core
   #(
-    parameter DATA_W = 16
+    parameter DATA_W = 32
     )
    (
-    `INPUT(A, 2*`DATA_W),
-    `INPUT(B, 2*`DATA_W),
-    `OUTPUT(KNN_VALUE, 2*`DATA_W),
+    `INPUT(A, `DATA_W),
+    `INPUT(B, `DATA_W),
+    `OUTPUT(KNN_VALUE, `DATA_W),
     `INPUT(clk, 1),
     `INPUT(rst, 1)
     );
 
-    `SIGNAL(DIST_OUT, 2*`DATA_W)
+    `SIGNAL(DIST_OUT, `DATA_W)
 
     `SIGNAL2OUT(KNN_VALUE, DIST_OUT)
 

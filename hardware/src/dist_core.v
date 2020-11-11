@@ -3,21 +3,21 @@
 
 module dist_core
   #(
-    parameter DATA_W = 16
+    parameter DATA_W = 32
     )
    (
-    `OUTPUT(DIST_OUT, 2*`DATA_W),
-    `INPUT(Ax, `DATA_W),
-    `INPUT(Bx, `DATA_W),
-    `INPUT(Ay, `DATA_W),
-    `INPUT(By, `DATA_W)
+    `OUTPUT(DIST_OUT, `DATA_W),
+    `INPUT(Ax, `DATA_W/2),
+    `INPUT(Bx, `DATA_W/2),
+    `INPUT(Ay, `DATA_W/2),
+    `INPUT(By, `DATA_W/2)
     );
 
-    `SIGNAL_SIGNED(X_DIFF, `DATA_W)
-    `SIGNAL_SIGNED(Y_DIFF, `DATA_W)
-    `SIGNAL_SIGNED(X_SQR, 2*`DATA_W)
-    `SIGNAL_SIGNED(Y_SQR, 2*`DATA_W)
-    `SIGNAL_SIGNED(DIST_VALUE, 2*`DATA_W)
+    `SIGNAL_SIGNED(X_DIFF, `DATA_W/2)
+    `SIGNAL_SIGNED(Y_DIFF, `DATA_W/2)
+    `SIGNAL_SIGNED(X_SQR, `DATA_W)
+    `SIGNAL_SIGNED(Y_SQR, `DATA_W)
+    `SIGNAL_SIGNED(DIST_VALUE, `DATA_W)
 
     `COMB begin
 
