@@ -20,13 +20,11 @@ module knn_tb;
       $dumpvars();
 `endif
 
-      KNN_SAMPLE = 0;
-      KNN_ENABLE = 0;
-      KNN_DATA_IN = 16'b0;
+      @(posedge clk) #1 KNN_SAMPLE = 0;
+      @(posedge clk) #1 KNN_ENABLE = 0;
+      @(posedge clk) #1 KNN_DATA_IN = 16'b0;
 
-      @(posedge rst);
-      @(negedge rst);
-      KNN_ENABLE = 1;
+      @(posedge clk) #1 KNN_ENABLE = 1;
       @(posedge clk) #1 KNN_DATA_IN = 16'b100;
       @(posedge clk) #1 KNN_DATA_IN = 16'b11;
       @(posedge clk) #1 KNN_DATA_IN = 16'b10;

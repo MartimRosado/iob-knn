@@ -31,16 +31,11 @@ module iob_knn
    //
    `SIGNAL_OUT(KNN_VALUE, DATA_W)
 
-   `SIGNAL(KNN_SAMPLE, 1)
-
-   `SIGNAL(KNN_DATA_IN, DATA_W)
-
    knn_core knn0
      (
-      .KNN_ENABLE(KNN_ENABLE),
-      .KNN_SAMPLE(KNN_SAMPLE),
-      .KNN_VALUE(KNN_VALUE),
-      .KNN_DATA_IN(KNN_DATA_IN),
+      .A(KNN_A),
+      .B(KNN_B),
+      .KNN_VALUE(KNN_DIST),
       .clk(clk),
       .rst(rst_int)
       );

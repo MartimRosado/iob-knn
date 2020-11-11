@@ -6,18 +6,18 @@ module dist_core
     parameter DATA_W = 16
     )
    (
-    `OUTPUT(DIST_OUT, `DATA_W),
+    `OUTPUT(DIST_OUT, 2*`DATA_W),
     `INPUT(Ax, `DATA_W),
     `INPUT(Bx, `DATA_W),
     `INPUT(Ay, `DATA_W),
     `INPUT(By, `DATA_W)
     );
 
-    `SIGNAL(X_DIFF, `DATA_W)
-    `SIGNAL(Y_DIFF, `DATA_W)
-    `SIGNAL(X_SQR, `DATA_W)
-    `SIGNAL(Y_SQR, `DATA_W)
-    `SIGNAL(DIST_VALUE, `DATA_W)
+    `SIGNAL_SIGNED(X_DIFF, `DATA_W)
+    `SIGNAL_SIGNED(Y_DIFF, `DATA_W)
+    `SIGNAL_SIGNED(X_SQR, 2*`DATA_W)
+    `SIGNAL_SIGNED(Y_SQR, 2*`DATA_W)
+    `SIGNAL_SIGNED(DIST_VALUE, 2*`DATA_W)
 
     `COMB begin
 
@@ -26,7 +26,6 @@ module dist_core
     Y_DIFF = Ay - By;
     Y_SQR = Y_DIFF * Y_DIFF;
     DIST_VALUE = X_SQR + Y_SQR;
-    //As multiplicações já estão  truncadas?
 
     end
 
