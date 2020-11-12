@@ -15,14 +15,11 @@ void knn_init(int base_address){
   knn_reset();
 }
 
-void knn_set_value_A(unsigned int coordinate){
+void knn_set_TestP(unsigned int coordinate){
   IO_SET(base, KNN_A, coordinate);
 }
 
-void knn_set_value_B(unsigned int coordinate){
+int knn_dist_DataP(unsigned int coordinate){
   IO_SET(base, KNN_B, coordinate);
-}
-
-int knn_read_distance(){
   return (unsigned int) IO_GET(base, KNN_DIST);
 }

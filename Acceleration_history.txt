@@ -5,5 +5,5 @@ Conjunto pequeno de dados
 Original -> D=1 : 10557us
             D=0 : 143us
 
-Distâncias calculadas -> D=1 : 10559us
-                         D=0 : 146us
+Distâncias calculadas -> D=1 : 10550us
+                         D=0 : 137us

@@ -145,11 +145,10 @@ int main() {
 #ifdef DEBUG
     uart_printf("Datum \tX \tY \tLabel \tDistance\n");
 #endif
-    knn_set_value_A(x[k].coord);
+    knn_set_TestP(x[k].coord);
     for (int i=0; i<N; i++) { //for all dataset points
       //compute distance to x[k]
-      knn_set_value_B(data[i].coord);
-      unsigned int d = knn_read_distance();
+      unsigned int d = knn_dist_DataP(data[i].coord);
       //unsigned int d = sq_dist(x[k], data[i]);
 
       //insert in ordered list
