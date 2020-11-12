@@ -1,7 +1,9 @@
 Histórico de desempenho a correr knn.c @ 100MHz
 
-Original -> D=1 : 10557us
-            D=0 : N/a
+Conjunto pequeno de dados
 
-Distâncias calculadas -> D=1 : 9953us, tem erros (ou então atrasa mais do que não mexer)
-                         D=0 :
+Original -> D=1 : 10557us
+            D=0 : 143us
+
+Distâncias calculadas -> D=1 : 10559us
+                         D=0 : 146us
