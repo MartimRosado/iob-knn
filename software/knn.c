@@ -32,7 +32,6 @@
 struct datum {
   short x;
   short y;
-  unsigned int coord;
   unsigned char label;
 } data[N], x[M];
 
@@ -91,7 +90,6 @@ int main() {
     //init coordinates
     data[i].x = (short) cmwc_rand();
     data[i].y = (short) cmwc_rand();
-    data[i].coord = (data[i].x<<16) + data[i].y;
 
     //init label
     data[i].label = (unsigned char) (cmwc_rand()%C);
@@ -108,7 +106,6 @@ int main() {
   for (int k=0; k<M; k++) {
     x[k].x  = (short) cmwc_rand();
     x[k].y  = (short) cmwc_rand();
-    x[k].coord = (x[k].x<<16) + x[k].y;
     //x[k].label will be calculated by the algorithm
   }
 
@@ -145,10 +142,10 @@ int main() {
 #ifdef DEBUG
     uart_printf("Datum \tX \tY \tLabel \tDistance\n");
 #endif
-    knn_set_value_A(x[k].coord);
+    knn_set_value_A(( unsigned int)(x[k].x<<16) + (unsigned short)x[k].y);
     for (int i=0; i<N; i++) { //for all dataset points
       //compute distance to x[k]
-      knn_set_value_B(data[i].coord);
+      knn_set_value_B(( unsigned int)(data[i].x<<16) + (unsigned short)data[i].y);
       unsigned int d = knn_read_distance();
       //unsigned int d = sq_dist(x[k], data[i]);
 
