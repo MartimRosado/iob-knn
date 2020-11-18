@@ -25,15 +25,15 @@ module list_element
 
     `COMB begin
 
-    if(write_previous || (Neighbour_info < Reg_out[DATA_W-1:LABEL])) Write_l = 1'b1;
+    if(write_previous || (Dist_candidate < Reg_out[DATA_W-1:LABEL])) Write_l = 1'b1;
     else Write_l = 1'b0;
 
     if(write_previous == 1) Reg_in = Neighbour_previous;
-    else Reg_in = Neighbour_info;
+    else Reg_in = {Dist_candidate , label_candidate};
 
     end
 
-    `REG_ARE(clk, rst, 1'b1, valid & start & Write_l, Reg_out, Reg_in)
+    `REG_ARE(clk, rst, '1, valid & start & Write_l, Reg_out, Reg_in)
 
     `SIGNAL2OUT(Neighbour_info, Reg_out)
     `SIGNAL2OUT(write_L, Write_l)

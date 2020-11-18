@@ -7,3 +7,6 @@ Original -> D=1 : 10557us
 
 Distâncias calculadas -> D=1 : 10550us
                          D=0 : 137us
+
+Inserção em lista em hardware -> D=1 :
+                                 D=0 : 

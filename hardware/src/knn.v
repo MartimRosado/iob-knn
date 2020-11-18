@@ -11,14 +11,14 @@ module knn_core
     `INPUT(A, `DATA_W),
     `INPUT(B, `DATA_W),
     `INPUT(label, `LABEL),
-    `OUTPUT(Neighbour_info, (DATA_W+LABEL)*N_Neighbour),
+    `OUTPUT(Neighbour_info, (`DATA_W+`LABEL)*`N_Neighbour),
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
     `INPUT(start, 1)
     );
 
-    `SIGNAL_OUT(DIST_OUT, DATA_W)
+    `SIGNAL_OUT(DIST_OUT, `DATA_W)
 
     dist_core dist1
       (

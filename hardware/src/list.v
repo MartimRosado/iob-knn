@@ -43,7 +43,7 @@ module list
         (
          .Neighbour_info(Neighbour_info[(DATA_W+LABEL)*(i+1)-1:(DATA_W+LABEL)*i]),
          .write_L(write_L[i]),
-         .write_previous(write_previous[i-1]),
+         .write_previous(write_L[i-1]),
          .Neighbour_previous(Neighbour_info[(DATA_W+LABEL)*i-1:(DATA_W+LABEL)*(i-1)]),
          .Dist_candidate(Dist_candidate),
          .label_candidate(label_candidate),
