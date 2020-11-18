@@ -7,6 +7,7 @@ module iob_knn
   #(
     parameter ADDR_W = `KNN_ADDR_W, //NODOC Address width
     parameter DATA_W = `DATA_W, //NODOC Data word width
+    parameter LABEL = `LABEL,
     parameter WDATA_W = `KNN_WDATA_W //NODOC Data word width on writes
     )
    (
@@ -35,9 +36,12 @@ module iob_knn
      (
       .A(KNN_A),
       .B(KNN_B),
-      .KNN_VALUE(KNN_DIST),
+      .label(KNN_LABEL),
+      .Neighbour_info(),
       .clk(clk),
-      .rst(rst_int)
+      .rst(rst_int),
+      .valid(valid),
+      .start(KNN_ENABLE)
       );
 
 

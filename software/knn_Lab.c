@@ -129,6 +129,7 @@ int main() {
   uart_txwait();
 
   timer_init(TIMER_BASE);
+  timer_stop();
   knn_init(KNN_BASE);
 
   for (int k=0; k<M; k++) { //for all test points

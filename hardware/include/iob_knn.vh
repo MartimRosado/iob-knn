@@ -3,3 +3,6 @@
 `ifndef DATA_W
  `define DATA_W 32      //cpu data width
 `endif
+`ifndef LABEL
+ `define LABEL 8
+`endif
