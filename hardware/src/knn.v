@@ -11,7 +11,7 @@ module knn_core
     `INPUT(A, `DATA_W),
     `INPUT(B, `DATA_W),
     `INPUT(label, `LABEL),
-    `OUTPUT(Neighbour_info, (`DATA_W+`LABEL)*`N_Neighbour),
+    `OUTPUT(Neighbour_info, `LABEL*`N_Neighbour),
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
@@ -31,7 +31,7 @@ module knn_core
 
     list list0
       (
-        .Neighbour_info(Neighbour_info),
+        .Neighbour_info_out(Neighbour_info),
         .Dist_candidate(DIST_OUT),
         .label_candidate(label),
         .valid(valid),

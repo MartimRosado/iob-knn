@@ -35,9 +35,9 @@ module knn_tb;
       @(posedge clk) #1 KNN_ENABLE = 1;
       valid = 1'b1;
       B = 32'b00000000000011110000000000001111;
-      label = 8'b1;
+      label = 8'b10;
       $write("Ax = 10\nAy = 10\nBx = 15\nBy = 15\n");
-      $write("Dist = 50\n");
+      $write("Dist = 50\nLABEL = 2\n");
 
       @(posedge clk);
       valid = 1'b1;
@@ -56,25 +56,25 @@ module knn_tb;
 
       @(posedge clk) #1 KNN_ENABLE = 0;
 
-      if(Neighbour_info[`DATA_W-1:`LABEL] == 2)
+      if(Neighbour_info[`LABEL-1:0] == 1)
         $display("Test passed");
         else
-          $display("Test failed: expecting knn value 2 but got %d", Neighbour_info[`DATA_W-1:`LABEL]);
+          $display("Test failed: expecting knn value 1 but got %d", Neighbour_info[`DATA_W-1:`LABEL]);
 
-      if(Neighbour_info[`DATA_W-1+(`DATA_W+`LABEL):`LABEL+(`DATA_W+`LABEL)] == 4)
+      if(Neighbour_info[`LABEL-1+(`LABEL):(`LABEL)] == 1)
         $display("Test passed");
         else
-          $display("Test failed: expecting knn value 2 but got %d", Neighbour_info[`DATA_W-1+(`DATA_W+`LABEL):`LABEL+(`DATA_W+`LABEL)]);
+          $display("Test failed: expecting knn value 1 but got %d", Neighbour_info[`LABEL-1+(`DATA_W+`LABEL):(`DATA_W+`LABEL)]);
 
-      if(Neighbour_info[`DATA_W-1+2*(`DATA_W+`LABEL):`LABEL+2*(`DATA_W+`LABEL)] == 8)
+      if(Neighbour_info[`LABEL-1+2*(`LABEL):2*(`LABEL)] == 1)
         $display("Test passed");
         else
-          $display("Test failed: expecting knn value 8 but got %d", Neighbour_info[`DATA_W-1+2*(`DATA_W+`LABEL):`LABEL+2*(`DATA_W+`LABEL)]);
+          $display("Test failed: expecting knn value 1 but got %d", Neighbour_info[`DATA_W-1+2*(`DATA_W+`LABEL):`LABEL+2*(`DATA_W+`LABEL)]);
 
-      if(Neighbour_info[`DATA_W-1+3*(`DATA_W+`LABEL):`LABEL+3*(`DATA_W+`LABEL)] == 50)
+      if(Neighbour_info[`LABEL-1+3*(`LABEL):3*(`LABEL)] == 2)
         $display("Test passed");
         else
-          $display("Test failed: expecting knn value 50 but got %d", Neighbour_info[`DATA_W-1+3*(`DATA_W+`LABEL):`LABEL+3*(`DATA_W+`LABEL)]);
+          $display("Test failed: expecting knn value 2 but got %d", Neighbour_info[`DATA_W-1+3*(`DATA_W+`LABEL):`LABEL+3*(`DATA_W+`LABEL)]);
       #(1000*PER) @(posedge clk) #1 valid = 0;
 
       /*if( KNN_VALUE == 1)
