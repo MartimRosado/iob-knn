@@ -124,6 +124,7 @@ int main() {
     if(b < 100 && x[k].y > max) max = x[k].y;
     b = b + 1;
     if (b < 100) uart_printf("Gen number %d: %d\n", b, x[k].y);
+    uart_printf("Blah Blah Blah %d\n", k);
     //x[k].label will be calculated by the algorithm
   }
 
