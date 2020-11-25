@@ -7,3 +7,4 @@
 [submodule "submodules/LIB"]
 	path = submodules/LIB
 	url = git@github.com:MartimRosado/iob-lib.git
+	branch = master
