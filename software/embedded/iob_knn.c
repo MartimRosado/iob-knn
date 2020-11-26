@@ -10,6 +10,14 @@ void knn_reset(){
   IO_SET(base, KNN_RESET, 0);
 }
 
+void knn_start(){
+  IO_SET(base, KNN_ENABLE, 1);
+}
+
+void knn_stop(){
+  IO_SET(base, KNN_ENABLE, 0);
+}
+
 void knn_init(int base_address){
   base = base_address;
   knn_reset();
@@ -19,7 +27,14 @@ void knn_set_TestP(unsigned int coordinate){
   IO_SET(base, KNN_A, coordinate);
 }
 
-int knn_dist_DataP(unsigned int coordinate){
+void knn_set_DataP(unsigned int coordinate, char label){
+  IO_SET(base, KNN_LABEL, label);
   IO_SET(base, KNN_B, coordinate);
-  return (unsigned int) IO_GET(base, KNN_DIST);
+  //knn_start();
+  //knn_stop();
+}
+
+char knn_read_Label(unsigned int offset){
+  int actualADDR = KNN_INFO0 + offset;
+  return (char)IO_GET(base, actualADDR);
 }

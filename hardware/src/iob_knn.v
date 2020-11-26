@@ -37,7 +37,7 @@ module iob_knn
       .A(KNN_A),
       .B(KNN_B),
       .label(KNN_LABEL),
-      .Neighbour_info(KNN_INFO),
+      .Neighbour_info({KNN_INFO[0], KNN_INFO[1], KNN_INFO[2], KNN_INFO[3], KNN_INFO[4], KNN_INFO[5], KNN_INFO[6], KNN_INFO[7], KNN_INFO[8], KNN_INFO[9]}),
       .clk(clk),
       .rst(rst_int),
       .valid(valid),

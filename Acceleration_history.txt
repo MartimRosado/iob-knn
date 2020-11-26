@@ -1,4 +1,4 @@
-Histórico de desempenho a correr knn.c @ 100MHz
+Histórico de desempenho a correr knn_Lab.c @ 100MHz
 
 Conjunto pequeno de dados
 
@@ -8,5 +8,9 @@ Original -> D=1 : 10557us
 Distâncias calculadas -> D=1 : 10550us
                          D=0 : 137us
 
-Inserção em lista em hardware -> D=1 :
-                                 D=0 : 
+Inserção em lista em hardware -> D=1 : 8358us com erros nos enables
+                                 D=0 : 50us com erros nos enables
+
+Loucuras: (nem me atrevo a pôr prints nisto...)
+100 Data points + 100 Test points D=0 : 7320us com erros
+1000 Data points + 100 Test points D=0 : 62220us com erros

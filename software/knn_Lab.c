@@ -129,7 +129,6 @@ int main() {
   uart_txwait();
 
   timer_init(TIMER_BASE);
-  timer_stop();
   knn_init(KNN_BASE);
 
   for (int k=0; k<M; k++) { //for all test points
@@ -140,31 +139,33 @@ int main() {
 #endif
 
     //init all k neighbors infinite distance
-    for (int j=0; j<K; j++)
-      neighbor[j].dist = INFINITE;
+    /*for (int j=0; j<K; j++)
+      neighbor[j].dist = INFINITE;*/
+    knn_reset();
 
 #ifdef DEBUG
     uart_printf("Datum \tX \tY \tLabel \tDistance\n");
 #endif
     knn_set_TestP(x[k].coord);
+    knn_start();
     for (int i=0; i<N; i++) { //for all dataset points
       //compute distance to x[k]
-      unsigned int d = knn_dist_DataP(data[i].coord);
+      knn_set_DataP(data[i].coord, data[i].label);
       //unsigned int d = sq_dist(x[k], data[i]);
 
       //insert in ordered list
-      for (int j=0; j<K; j++)
+      /*for (int j=0; j<K; j++)
         if ( d < neighbor[j].dist ) {
           insert( (struct neighbor){i,d}, j);
           break;
-        }
-
+        }*/
 #ifdef DEBUG
       //dataset
-      uart_printf("%d \t%d \t%d \t%d \t%d\n", i, data[i].x, data[i].y, data[i].label, d);
+      uart_printf("%d \t%d \t%d \t%d\n", i, data[i].x, data[i].y, data[i].label/*, d*/);
 #endif
 
     }
+    knn_stop();
 
 
     //classify test point
@@ -176,8 +177,11 @@ int main() {
 
     //make neighbours vote
     for (int j=0; j<K; j++) { //for all neighbors
-      if ( (++votes[data[neighbor[j].idx].label]) > best_votation ) {
-        best_voted = data[neighbor[j].idx].label;
+      int vote = knn_read_Label(j);
+      //if ( (++votes[data[neighbor[j].idx].label]) > best_votation ) {
+      if ( (++votes[vote]) > best_votation ) {
+        //best_voted = data[neighbor[j].idx].label;
+        best_voted = vote;
         best_votation = votes[best_voted];
       }
     }
