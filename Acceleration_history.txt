@@ -12,5 +12,5 @@ Inserção em lista em hardware -> D=1 : 8358us
                                  D=0 : 50us
 
 Loucuras: (nem me atrevo a pôr prints nisto...)
-100 Data points + 100 Test points D=0 : 7320us com erros
-1000 Data points + 100 Test points D=0 : 62220us com erros
+100 Data points + 100 Test points D=0 : 7345us
+1000 Data points + 100 Test points D=0 : 62245us
