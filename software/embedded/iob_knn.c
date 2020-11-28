@@ -30,11 +30,9 @@ void knn_set_TestP(unsigned int coordinate){
 void knn_set_DataP(unsigned int coordinate, char label){
   IO_SET(base, KNN_LABEL, label);
   IO_SET(base, KNN_B, coordinate);
-  //knn_start();
-  //knn_stop();
 }
 
-char knn_read_Label(unsigned int offset){
+unsigned char knn_read_Label(unsigned int offset){
   int actualADDR = KNN_INFO0 + offset;
-  return (char)IO_GET(base, actualADDR);
+  return IO_GET(base, actualADDR);
 }
