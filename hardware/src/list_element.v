@@ -25,7 +25,7 @@ module list_element
 
     `COMB begin
 
-    if(write_previous || (Dist_candidate < Reg_out[DATA_W-1:LABEL])) Write_l = 1'b1;
+    if(write_previous || (Dist_candidate < Reg_out[DATA_W+LABEL-1:LABEL])) Write_l = 1'b1;
     else Write_l = 1'b0;
 
     if(write_previous == 1) Reg_in = Neighbour_previous;
