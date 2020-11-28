@@ -175,6 +175,11 @@ int main() {
     int best_votation = 0;
     int best_voted = 0;
 
+    #ifdef DEBUG
+    uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].x, x[k].y);
+    uart_printf("K \tLabel\n");
+    #endif
+
     //make neighbours vote
     for (int j=0; j<K; j++) { //for all neighbors
       int vote = knn_read_Label(j);
@@ -184,6 +189,9 @@ int main() {
         best_voted = vote;
         best_votation = votes[best_voted];
       }
+      #ifdef DEBUG
+        uart_printf("%d \t%d\n", j+1, vote);
+      #endif
     }
 
     x[k].label = best_voted;
@@ -191,15 +199,9 @@ int main() {
     votes_acc[best_voted]++;
 
 #ifdef DEBUG
-    uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].x, x[k].y);
-    uart_printf("K \tIdx \tX \tY \tDist \t\tLabel\n");
-    for (int j=0; j<K; j++)
-      uart_printf("%d \t%d \t%d \t%d \t%d \t%d\n", j+1, neighbor[j].idx, data[neighbor[j].idx].x,  data[neighbor[j].idx].y, neighbor[j].dist,  data[neighbor[j].idx].label);
-
     uart_printf("\n\nCLASSIFICATION of x[%d]:\n", k);
     uart_printf("X \tY \tLabel\n");
     uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
-
 #endif
 
   } //all test points classified

@@ -41,7 +41,8 @@ module iob_knn
       .clk(clk),
       .rst(rst_int),
       .valid(valid),
-      .start(KNN_ENABLE)
+      .start(KNN_ENABLE),
+      .wstrb(write)
       );
 
 

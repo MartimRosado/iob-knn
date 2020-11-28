@@ -15,10 +15,12 @@ module knn_core
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
-    `INPUT(start, 1)
+    `INPUT(start, 1),
+    `INPUT(wstrb, 1)
     );
 
     `SIGNAL_OUT(DIST_OUT, `DATA_W)
+    `SIGNAL(valid_control, 1)
 
     dist_core dist1
       (
@@ -34,10 +36,20 @@ module knn_core
         .Neighbour_info_out(Neighbour_info),
         .Dist_candidate(DIST_OUT),
         .label_candidate(label),
-        .valid(valid),
+        .valid(valid_control),
         .rst(rst),
         .start(start),
         .clk(clk)
         );
+
+    control FSM
+       (
+        .Data_Loaded(valid_control),
+        .valid(valid),
+        .clk(clk),
+        .enable(start),
+        .rst(rst),
+        .wstrb(wstrb)
+       );
 
 endmodule
