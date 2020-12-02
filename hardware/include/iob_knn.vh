@@ -6,11 +6,9 @@
 `ifndef LABEL
  `define LABEL 8
 `endif
-
 `ifndef N_Neighbour
  `define N_Neighbour 10
 `endif
-
 `ifndef NT_points
  `define NT_points 100
 `endif
