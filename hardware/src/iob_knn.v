@@ -9,6 +9,7 @@ module iob_knn
     parameter DATA_W = `DATA_W, //NODOC Data word width
     parameter LABEL = `LABEL,
     parameter N_Neighbour = `N_Neighbour,
+    parameter NT_points = `NT_points,
     parameter WDATA_W = `KNN_WDATA_W //NODOC Data word width on writes
     )
    (
@@ -38,18 +39,22 @@ module iob_knn
      end
    endgenerate
 
-   knn_core knn0
-     (
-      .A(KNN_A),
-      .B(KNN_B),
-      .label(KNN_LABEL),
-      .Neighbour_info(INFO_OUT),
-      .clk(clk),
-      .rst(rst_int),
-      .valid(valid),
-      .start(KNN_ENABLE),
-      .wstrb(write)
-      );
+   generate
+    for(i = 0; i < `NT_points; i = i+1) begin
+     knn_core knn
+       (
+        .A(KNN_A),
+        .B(KNN_B),
+        .label(KNN_LABEL),
+        .Neighbour_info(INFO_OUT),
+        .clk(clk),
+        .rst(rst_int),
+        .valid(valid),
+        .start(KNN_ENABLE),
+        .wstrb(write)
+        );
+      end
+    endgenerate
 
 
    //ready signal
