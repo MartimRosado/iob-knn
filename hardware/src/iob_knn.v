@@ -8,6 +8,7 @@ module iob_knn
     parameter ADDR_W = `KNN_ADDR_W, //NODOC Address width
     parameter DATA_W = `DATA_W, //NODOC Data word width
     parameter LABEL = `LABEL,
+    parameter N_Neighbour = `N_Neighbour,
     parameter WDATA_W = `KNN_WDATA_W //NODOC Data word width on writes
     )
    (
@@ -27,17 +28,22 @@ module iob_knn
    `SIGNAL(write, 1)
    `COMB write = | wstrb;
 
-   //
-   //BLOCK 64-bit time counter & Free-running 64-bit counter with enable and soft reset capabilities
-   //
-   `SIGNAL_OUT(KNN_VALUE, DATA_W)
+   `SIGNAL(INFO_OUT, N_Neighbour*LABEL)
+
+   genvar i;
+
+   generate
+     for (i = `N_Neighbour; i > 0; i = i-1) begin
+      assign KNN_INFO[i-1] = INFO_OUT[(i*`LABEL)-1:(i-1)*`LABEL];
+     end
+   endgenerate
 
    knn_core knn0
      (
       .A(KNN_A),
       .B(KNN_B),
       .label(KNN_LABEL),
-      .Neighbour_info({KNN_INFO[9], KNN_INFO[8], KNN_INFO[7], KNN_INFO[6], KNN_INFO[5], KNN_INFO[4], KNN_INFO[3], KNN_INFO[2], KNN_INFO[1], KNN_INFO[0]}),
+      .Neighbour_info(INFO_OUT),
       .clk(clk),
       .rst(rst_int),
       .valid(valid),

@@ -24,8 +24,13 @@ module list
 
     `SIGNAL2OUT(Neighbour_info_out, Neighbour_info_LABEL)
 
-    assign Neighbour_info_LABEL = {Neighbour_info[367:360], Neighbour_info[327:320], Neighbour_info[287:280], Neighbour_info[247:240], Neighbour_info[207:200],
-    Neighbour_info[167:160], Neighbour_info[127:120], Neighbour_info[87:80], Neighbour_info[47:40], Neighbour_info[7:0]};
+    genvar i;
+
+    generate
+      for (i = `N_Neighbour; i > 0; i = i-1) begin
+       assign Neighbour_info_LABEL[(i*LABEL)-1:((i-1)*LABEL)] = Neighbour_info[(i*(DATA_W+LABEL))-DATA_W-1:(i-1)*(DATA_W+LABEL)];
+      end
+    endgenerate
 
     list_element list0
     (
@@ -40,8 +45,6 @@ module list
      .start(start),
      .clk(clk)
      );
-
-    genvar i;
 
     generate
       for(i = 1; i < N_Neighbour; i = i + 1) begin
