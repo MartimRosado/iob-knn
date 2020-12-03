@@ -49,12 +49,23 @@ module iob_knn
         .Neighbour_info(INFO_OUT),
         .clk(clk),
         .rst(rst_int),
-        .valid(valid),
+        .valid(valid_control),
         .start(KNN_ENABLE),
-        .wstrb(write)
         );
       end
     endgenerate
+
+    `SIGNAL(valid_control, 1)
+
+    control FSM
+       (
+        .Data_Loaded(valid_control),
+        .valid(valid),
+        .clk(clk),
+        .enable(KNN_ENABLE),
+        .rst(rst),
+        .wstrb(write)
+       );
 
 
    //ready signal

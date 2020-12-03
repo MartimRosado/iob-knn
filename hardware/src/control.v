@@ -37,7 +37,7 @@ module control
       end
 
       default: begin
-        next_pc = pc;
+        next_pc = 1'b0;
         cont_out = 1'b0;
       end
 
