@@ -11,6 +11,9 @@ Distâncias calculadas -> D=1 : 10550us
 Inserção em lista em hardware -> D=1 : 8358us
                                  D=0 : 50us
 
+Same thing mega scaled (só que não) -> D=1 : N/a não somos doidos
+                                       D=0 : 33us
+
 Loucuras: (nem me atrevo a pôr prints nisto...)
 100 Data points + 100 Test points D=0 : 7345us
 1000 Data points + 100 Test points D=0 : 62245us

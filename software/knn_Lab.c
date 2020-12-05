@@ -8,7 +8,7 @@
 //uncomment to use rand from C lib
 //#define cmwc_rand rand
 
-#ifdef DEBUG //type make DEBUG=1 to print debug info
+#ifndef DEBUG //type make DEBUG=1 to print debug info
 #define S 12  //random seed
 #define N 10  //data set size
 #define K 4   //number of neighbours (K)
@@ -131,11 +131,11 @@ int main() {
   timer_init(TIMER_BASE);
   knn_init(KNN_BASE);
 
-  for (int k=0; k<M; k++) { //for all test points
+  //for all test points
   //compute distances to dataset points
 
 #ifdef DEBUG
-    uart_printf("\n\nProcessing x[%d]:\n", k);
+    uart_printf("\n\nProcessing x[]:\n");
 #endif
 
     //init all k neighbors infinite distance
@@ -146,7 +146,10 @@ int main() {
 #ifdef DEBUG
     uart_printf("Datum \tX \tY \tLabel \tDistance\n");
 #endif
-    knn_set_TestP(x[k].coord);
+
+    for(int k=0; k<M; k++){
+      knn_set_TestP(x[k].coord, k);
+    }
     knn_start();
     for (int i=0; i<N; i++) { //for all dataset points
       //compute distance to x[k]
@@ -170,6 +173,7 @@ int main() {
 
     //classify test point
 
+  for(int k=0; k<M; k++){
     //clear all votes
     int votes[C] = {0};
     int best_votation = 0;
@@ -182,7 +186,7 @@ int main() {
 
     //make neighbours vote
     for (int j=0; j<K; j++) { //for all neighbors
-      int vote = knn_read_Label(j);
+      int vote = knn_read_Label(j, k, 10);
       //if ( (++votes[data[neighbor[j].idx].label]) > best_votation ) {
       if ( (++votes[vote]) > best_votation ) {
         //best_voted = data[neighbor[j].idx].label;
@@ -193,18 +197,17 @@ int main() {
         uart_printf("%d \t%d\n", j+1, vote);
       #endif
     }
-
     x[k].label = best_voted;
-
     votes_acc[best_voted]++;
+  }
 
 #ifdef DEBUG
-    uart_printf("\n\nCLASSIFICATION of x[%d]:\n", k);
+    uart_printf("\n\nCLASSIFICATION of x[]:\n");
     uart_printf("X \tY \tLabel\n");
-    uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
+    //uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
 #endif
 
-  } //all test points classified
+  //all test points classified
 
   //stop knn here
   //read current timer count, compute elapsed time

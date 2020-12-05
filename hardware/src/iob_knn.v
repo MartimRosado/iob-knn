@@ -29,13 +29,17 @@ module iob_knn
    `SIGNAL(write, 1)
    `COMB write = | wstrb;
 
-   `SIGNAL(INFO_OUT, N_Neighbour*LABEL)
+   `SIGNAL(INFO_OUT, `N_Neighbour*`LABEL*`NT_points)
+   `SIGNAL_OUT(valid_control, 1)
 
    genvar i;
+   genvar j;
 
    generate
-     for (i = `N_Neighbour; i > 0; i = i-1) begin
-      assign KNN_INFO[i-1] = INFO_OUT[(i*`LABEL)-1:(i-1)*`LABEL];
+     for (i = 0; i < `NT_points; i = i+1) begin
+      for (j = 0; j < `N_Neighbour; j = j + 1) begin
+        assign KNN_INFO[j+i*`N_Neighbour] = INFO_OUT[(j+1)*`LABEL+i*`N_Neighbour*`LABEL-1:j*`LABEL+i*`N_Neighbour*`LABEL];
+      end
      end
    endgenerate
 
@@ -43,19 +47,17 @@ module iob_knn
     for(i = 0; i < `NT_points; i = i+1) begin
      knn_core knn
        (
-        .A(KNN_A),
+        .A(KNN_A[i]),
         .B(KNN_B),
         .label(KNN_LABEL),
-        .Neighbour_info(INFO_OUT),
+        .Neighbour_info(INFO_OUT[(i+1)*`LABEL*`N_Neighbour-1:i*`LABEL*`N_Neighbour]),
         .clk(clk),
         .rst(rst_int),
         .valid(valid_control),
-        .start(KNN_ENABLE),
+        .start(KNN_ENABLE)
         );
       end
     endgenerate
-
-    `SIGNAL(valid_control, 1)
 
     control FSM
        (

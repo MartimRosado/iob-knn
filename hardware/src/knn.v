@@ -15,7 +15,7 @@ module knn_core
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
-    `INPUT(start, 1),
+    `INPUT(start, 1)
     );
 
     `SIGNAL_OUT(DIST_OUT, `DATA_W)

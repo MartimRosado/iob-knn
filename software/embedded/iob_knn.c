@@ -23,8 +23,9 @@ void knn_init(int base_address){
   knn_reset();
 }
 
-void knn_set_TestP(unsigned int coordinate){
-  IO_SET(base, KNN_A, coordinate);
+void knn_set_TestP(unsigned int coordinate, unsigned int offset){
+  unsigned int actualADDR = KNN_A0 + offset;
+  IO_SET(base, actualADDR, coordinate);
 }
 
 void knn_set_DataP(unsigned int coordinate, char label){
@@ -32,7 +33,7 @@ void knn_set_DataP(unsigned int coordinate, char label){
   IO_SET(base, KNN_B, coordinate);
 }
 
-unsigned char knn_read_Label(unsigned int offset){
-  int actualADDR = KNN_INFO0 + offset;
+unsigned char knn_read_Label(unsigned int offset, unsigned int point, unsigned int N_neighbour){
+  int actualADDR = KNN_INFO0 + offset + N_neighbour*point;
   return IO_GET(base, actualADDR);
 }

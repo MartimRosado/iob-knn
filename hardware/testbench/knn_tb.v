@@ -11,7 +11,7 @@ module knn_tb;
 
    `SIGNAL(KNN_ENABLE, 1)
    `SIGNAL(valid, 1)
-   `SIGNAL_OUT(Neighbour_info, (`DATA_W+`LABEL)*`N_Neighbour)
+   `SIGNAL_OUT(Neighbour_info, `LABEL*`N_Neighbour)
    `SIGNAL(A, `DATA_W)
    `SIGNAL(B, `DATA_W)
    `SIGNAL(label, `LABEL)
