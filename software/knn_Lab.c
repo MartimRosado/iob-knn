@@ -8,9 +8,9 @@
 //uncomment to use rand from C lib
 //#define cmwc_rand rand
 
-#ifndef DEBUG //type make DEBUG=1 to print debug info
+#ifdef DEBUG //type make DEBUG=1 to print debug info
 #define S 12  //random seed
-#define N 10  //data set size
+#define N 10  //data set sizecd
 #define K 4   //number of neighbours (K)
 #define C 4   //number data classes
 #define M 4   //number samples to be classified
@@ -30,39 +30,9 @@
 
 //labeled dataset
 struct datum {
-  short x;
-  short y;
   int coord;
   unsigned char label;
 } data[N], x[M];
-
-//neighbor info
-struct neighbor {
-  unsigned int idx; //index in dataset array
-  unsigned int dist; //distance to test point
-} neighbor[K];
-
-//
-//Functions
-//
-
-//square distance between 2 points a and b
-unsigned int sq_dist( struct datum a, struct datum b) {
-  short X = a.x-b.x;
-  unsigned int X2=X*X;
-  short Y = a.y-b.y;
-  unsigned int Y2=Y*Y;
-  return (X2 + Y2);
-}
-
-//insert element in ordered array of neighbours
-void insert (struct neighbor element, unsigned int position) {
-  for (int j=K-1; j>position; j--)
-    neighbor[j] = neighbor[j-1];
-
-  neighbor[position] = element;
-
-}
 
 
 ///////////////////////////////////////////////////////////////////
@@ -89,9 +59,12 @@ int main() {
   for (int i=0; i<N; i++) {
 
     //init coordinates
-    data[i].x = (short) cmwc_rand();
-    data[i].y = (short) cmwc_rand();
-    data[i].coord = (unsigned int)(data[i].x<<16) | (unsigned short)data[i].y;
+    short xx;
+    short y;
+
+    xx = (short) cmwc_rand();
+    y = (short) cmwc_rand();
+    data[i].coord = (unsigned int)(xx<<16) | (unsigned short)y;
 
     //init label
     data[i].label = (unsigned char) (cmwc_rand()%C);
@@ -101,14 +74,16 @@ int main() {
   uart_printf("\n\n\nDATASET\n");
   uart_printf("Idx \tX \tY \tLabel\n");
   for (int i=0; i<N; i++)
-    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].x,  data[i].y, data[i].label);
+    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && 255, data[i].label);
 #endif
 
   //init test points
   for (int k=0; k<M; k++) {
-    x[k].x  = (short) cmwc_rand();
-    x[k].y  = (short) cmwc_rand();
-    x[k].coord = (unsigned int)(x[k].x<<16) | (unsigned short)x[k].y;
+    short xx;
+    short y;
+    xx  = (short) cmwc_rand();
+    y  = (short) cmwc_rand();
+    x[k].coord = (unsigned int)(xx<<16) | (unsigned short)y;
     //x[k].label will be calculated by the algorithm
   }
 
@@ -116,7 +91,7 @@ int main() {
   uart_printf("\n\nTEST POINTS\n");
   uart_printf("Idx \tX \tY\n");
   for (int k=0; k<M; k++)
-    uart_printf("%d \t%d \t%d\n", k, x[k].x, x[k].y);
+    uart_printf("%d \t%d \t%d\n", k, x[k].coord>>16, x[k].coord && 255);
 #endif
 
   //
@@ -154,17 +129,10 @@ int main() {
     for (int i=0; i<N; i++) { //for all dataset points
       //compute distance to x[k]
       knn_set_DataP(data[i].coord, data[i].label);
-      //unsigned int d = sq_dist(x[k], data[i]);
 
-      //insert in ordered list
-      /*for (int j=0; j<K; j++)
-        if ( d < neighbor[j].dist ) {
-          insert( (struct neighbor){i,d}, j);
-          break;
-        }*/
 #ifdef DEBUG
       //dataset
-      uart_printf("%d \t%d \t%d \t%d\n", i, data[i].x, data[i].y, data[i].label/*, d*/);
+      uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && 255, data[i].label/*, d*/);
 #endif
 
     }
@@ -180,7 +148,7 @@ int main() {
     int best_voted = 0;
 
     #ifdef DEBUG
-    uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].x, x[k].y);
+    uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].coord>>16, x[k].coord && 255);
     uart_printf("K \tLabel\n");
     #endif
 
