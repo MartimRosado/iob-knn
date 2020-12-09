@@ -15,5 +15,5 @@ Same thing mega scaled (só que não) -> D=1 : N/a não somos doidos
                                        D=0 : 33us
 
 Loucuras: (nem me atrevo a pôr prints nisto...)
-100 Data points + 100 Test points D=0 : 7345us
-1000 Data points + 100 Test points D=0 : 62245us
+100 Data points + 100 Test points D=0 : 1459us
+1000 Data points + 100 Test points D=0 : 2008us
