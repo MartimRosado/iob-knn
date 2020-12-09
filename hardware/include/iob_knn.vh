@@ -10,5 +10,5 @@
  `define N_Neighbour 10
 `endif
 `ifndef NT_points
- `define NT_points 100
+ `define NT_points 45
 `endif
