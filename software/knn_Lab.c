@@ -8,7 +8,7 @@
 //uncomment to use rand from C lib
 #define cmwc_rand rand
 
-#ifndef DEBUG //type make DEBUG=1 to print debug info
+#ifdef DEBUG //type make DEBUG=1 to print debug info
 #define S 12  //random seed
 #define N 10  //data set sizecd
 #define K 4   //number of neighbours (K)
@@ -23,6 +23,8 @@
 #endif
 
 #define INFINITE ~0
+#define SHORT_AND 65535
+#define HW_Limit_TPoints 45
 
 //
 //Data structures
@@ -74,7 +76,7 @@ int main() {
   uart_printf("\n\n\nDATASET\n");
   uart_printf("Idx \tX \tY \tLabel\n");
   for (int i=0; i<N; i++)
-    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && 255, data[i].label);
+    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && SHORT_AND, data[i].label);
 #endif
 
   //init test points
@@ -91,7 +93,7 @@ int main() {
   uart_printf("\n\nTEST POINTS\n");
   uart_printf("Idx \tX \tY\n");
   for (int k=0; k<M; k++)
-    uart_printf("%d \t%d \t%d\n", k, x[k].coord>>16, x[k].coord && 255);
+    uart_printf("%d \t%d \t%d\n", k, x[k].coord>>16, x[k].coord && SHORT_AND);
 #endif
 
   //
@@ -109,71 +111,72 @@ int main() {
   //for all test points
   //compute distances to dataset points
 
-#ifdef DEBUG
-    uart_printf("\n\nProcessing x[]:\n");
-#endif
+  for(int z=0; z < M; z = z + HW_Limit_TPoints){
 
-    //init all k neighbors infinite distance
-    /*for (int j=0; j<K; j++)
-      neighbor[j].dist = INFINITE;*/
-    knn_reset();
+  #ifdef DEBUG
+      uart_printf("\n\nProcessing x[]:\n");
+  #endif
 
-#ifdef DEBUG
-    uart_printf("Datum \tX \tY \tLabel \tDistance\n");
-#endif
+      //init all k neighbors infinite distance
+      knn_reset();
 
-    for(int k=0; k<M; k++){
-      knn_set_TestP(x[k].coord, k);
-    }
-    knn_start();
-    for (int i=0; i<N; i++) { //for all dataset points
-      //compute distance to x[k]
-      knn_set_DataP(data[i].coord, data[i].label);
+  #ifdef DEBUG
+      uart_printf("Datum \tX \tY \tLabel \tDistance\n");
+  #endif
 
-#ifdef DEBUG
-      //dataset
-      uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && 255, data[i].label/*, d*/);
-#endif
-
-    }
-    knn_stop();
-
-
-    //classify test point
-
-  for(int k=0; k<M; k++){
-    //clear all votes
-    int votes[C] = {0};
-    int best_votation = 0;
-    int best_voted = 0;
-
-    #ifdef DEBUG
-    uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].coord>>16, x[k].coord && 255);
-    uart_printf("K \tLabel\n");
-    #endif
-
-    //make neighbours vote
-    for (int j=0; j<K; j++) { //for all neighbors
-      int vote = knn_read_Label(j, k, 10);
-      //if ( (++votes[data[neighbor[j].idx].label]) > best_votation ) {
-      if ( (++votes[vote]) > best_votation ) {
-        //best_voted = data[neighbor[j].idx].label;
-        best_voted = vote;
-        best_votation = votes[best_voted];
+      for(int k=0; k<M && k<HW_Limit_TPoints; k++){
+        knn_set_TestP(x[k+z].coord, k);
       }
-      #ifdef DEBUG
-        uart_printf("%d \t%d\n", j+1, vote);
-      #endif
-    }
-    x[k].label = best_voted;
-    votes_acc[best_voted]++;
-  }
+      knn_start();
+      for (int i=0; i<N; i++) { //for all dataset points
+        //compute distance to x[k]
+        knn_set_DataP(data[i].coord, data[i].label);
 
-#ifdef DEBUG
-    uart_printf("\n\nCLASSIFICATION of x[]:\n");
-    uart_printf("X \tY \tLabel\n");
-    //uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
-#endif
+  #ifdef DEBUG
+        //dataset
+        uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && SHORT_AND, data[i].label/*, d*/);
+  #endif
+
+      }
+      knn_stop();
+
+
+      //classify test point
+
+    for(int k=0; k<M && k<HW_Limit_TPoints; k++){
+      //clear all votes
+      int votes[C] = {0};
+      int best_votation = 0;
+      int best_voted = 0;
+
+      #ifdef DEBUG
+      uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].coord>>16, x[k].coord && SHORT_AND);
+      uart_printf("K \tLabel\n");
+      #endif
+
+      //make neighbours vote
+      for (int j=0; j<K; j++) { //for all neighbors
+        int vote = knn_read_Label(j, k+z, 10);
+        //if ( (++votes[data[neighbor[j].idx].label]) > best_votation ) {
+        if ( (++votes[vote]) > best_votation ) {
+          //best_voted = data[neighbor[j].idx].label;
+          best_voted = vote;
+          best_votation = votes[best_voted];
+        }
+        #ifdef DEBUG
+          uart_printf("%d \t%d\n", j+1, vote);
+        #endif
+      }
+      x[k+z].label = best_voted;
+      votes_acc[best_voted]++;
+    }
+
+  #ifdef DEBUG
+      uart_printf("\n\nCLASSIFICATION of x[]:\n");
+      uart_printf("X \tY \tLabel\n");
+      //uart_printf("%d \t%d \t%d\n\n\n", x[k].x, x[k].y, x[k].label);
+  #endif
+  }
 
   //all test points classified
 

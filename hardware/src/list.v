@@ -32,12 +32,10 @@ module list
       end
     endgenerate
 
-    list_element list0
+    list_element0 list0
     (
      .Neighbour_info(Neighbour_info[(DATA_W+LABEL)-1:0]),
      .write_L(write_L[0]),
-     .write_previous(write_previous),
-     .Neighbour_previous(Neighbour_info[(DATA_W+LABEL)-1:0]),
      .Dist_candidate(Dist_candidate),
      .label_candidate(label_candidate),
      .valid(valid),
