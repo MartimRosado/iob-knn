@@ -12,7 +12,7 @@ KNN_SUBMODULES_DIR:=$(KNN_DIR)/submodules
 KNN_SUBMODULES:=INTERCON LIB TEX
 $(foreach p, $(KNN_SUBMODULES), $(eval $p_DIR:=$(KNN_DIR)/submodules/$p))
 
-REMOTE_ROOT_DIR ?= sandbox/iob-soc/submodules/KNN
+REMOTE_ROOT_DIR ?=sandbox/iob-soc/ECompGrupo1/submodules/KNN
 
 #
 #SIMULATION
@@ -34,14 +34,14 @@ SIM_DIR ?=hardware/simulation/$(SIMULATOR)
 FPGA_FAMILY ?=ARTIX-7
 FPGA_SERVER ?=localhost
 #FPGA_SERVER ?=pudim-flan.iobundle.com
-FPGA_USER ?= $(USER)
+FPGA_USER ?=trainee
 
 ifeq ($(FPGA_FAMILY),ARTIX-7)
 	FPGA_COMP:=vivado
 	FPGA_PART:=xc7a35tcpg236-1
 else
-	FPGA_COMP:=quartus
-	FPGA_PART:=5CGTFD9E5F35C7
+	FPGA_COMP:=vivado
+	FPGA_PART:=xcku040-fbva676-1-c
 endif
 FPGA_DIR ?=$(KNN_DIR)/hardware/fpga/$(FPGA_COMP)
 

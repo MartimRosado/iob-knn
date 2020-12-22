@@ -24,7 +24,7 @@
 
 #define INFINITE ~0
 #define SHORT_AND 65535
-#define HW_Limit_TPoints 950
+#define HW_Limit_TPoints 50
 
 //
 //Data structures
