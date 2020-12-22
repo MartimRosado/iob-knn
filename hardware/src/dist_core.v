@@ -10,22 +10,37 @@ module dist_core
     `INPUT(Ax, `DATA_W/2),
     `INPUT(Bx, `DATA_W/2),
     `INPUT(Ay, `DATA_W/2),
-    `INPUT(By, `DATA_W/2)
+    `INPUT(By, `DATA_W/2),
+    `INPUT(clk, 1),
+    `INPUT(rst_acc, 1),
+    `INPUT(en_acc, 1),
+    `INPUT(en, 1),
+    `INPUT(SELXY, 1) //x --> 0, y --> 1
     );
 
-    `SIGNAL_SIGNED(X_DIFF, `DATA_W/2)
-    `SIGNAL_SIGNED(Y_DIFF, `DATA_W/2)
-    `SIGNAL_SIGNED(X_SQR, `DATA_W)
-    `SIGNAL_SIGNED(Y_SQR, `DATA_W)
+    `SIGNAL_SIGNED(OPA, `DATA_W/2)
+    `SIGNAL_SIGNED(OPB, `DATA_W/2)
+    `SIGNAL_SIGNED(SUB, `DATA_W/2)
+    `SIGNAL_SIGNED(MULT, `DATA_W)
+    `SIGNAL_SIGNED(MULT_P, `DATA_W)
     `SIGNAL_SIGNED(DIST_VALUE, `DATA_W)
+
+    `ACC_RE(clk, rst_acc, 0, en_acc, DIST_VALUE, MULT)
+    `REG_RE(clk, rst_acc, 0, en, MULT, MULT_P)
 
     `COMB begin
 
-    X_DIFF = Ax - Bx;
-    X_SQR = X_DIFF * X_DIFF;
-    Y_DIFF = Ay - By;
-    Y_SQR = Y_DIFF * Y_DIFF;
-    DIST_VALUE = X_SQR + Y_SQR;
+    if(SELXY == 0) begin
+      OPA = Ax;
+      OPB = Bx;
+    end
+    else begin
+      OPA = Ay;
+      OPB = By;
+    end
+
+    SUB = OPA - OPB;
+    MULT_P = SUB * SUB;
 
     end
 

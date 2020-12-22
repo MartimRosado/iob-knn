@@ -24,7 +24,7 @@
 
 #define INFINITE ~0
 #define SHORT_AND 65535
-#define HW_Limit_TPoints 45
+#define HW_Limit_TPoints 950
 
 //
 //Data structures
@@ -76,7 +76,7 @@ int main() {
   uart_printf("\n\n\nDATASET\n");
   uart_printf("Idx \tX \tY \tLabel\n");
   for (int i=0; i<N; i++)
-    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && SHORT_AND, data[i].label);
+    uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord & SHORT_AND, data[i].label);
 #endif
 
   //init test points
@@ -93,7 +93,7 @@ int main() {
   uart_printf("\n\nTEST POINTS\n");
   uart_printf("Idx \tX \tY\n");
   for (int k=0; k<M; k++)
-    uart_printf("%d \t%d \t%d\n", k, x[k].coord>>16, x[k].coord && SHORT_AND);
+    uart_printf("%d \t%d \t%d\n", k, x[k].coord>>16, x[k].coord & SHORT_AND);
 #endif
 
   //
@@ -134,7 +134,7 @@ int main() {
 
   #ifdef DEBUG
         //dataset
-        uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord && SHORT_AND, data[i].label/*, d*/);
+        uart_printf("%d \t%d \t%d \t%d\n", i, data[i].coord>>16, data[i].coord & SHORT_AND, data[i].label/*, d*/);
   #endif
 
       }
@@ -150,7 +150,7 @@ int main() {
       int best_voted = 0;
 
       #ifdef DEBUG
-      uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].coord>>16, x[k].coord && SHORT_AND);
+      uart_printf("\n\nNEIGHBORS of x[%d]=(%d, %d):\n", k, x[k].coord>>16, x[k].coord & SHORT_AND);
       uart_printf("K \tLabel\n");
       #endif
 

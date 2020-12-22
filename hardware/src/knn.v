@@ -15,7 +15,11 @@ module knn_core
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
-    `INPUT(start, 1)
+    `INPUT(start, 1),
+    `INPUT(en_acc, 1),
+    `INPUT(en_reg, 1),
+    `INPUT(rst_acc, 1),
+    `INPUT(sel_xy, 1)
     );
 
     `SIGNAL_OUT(DIST_OUT, `DATA_W)
@@ -26,7 +30,12 @@ module knn_core
       .Ax(A[31:16]),
       .Bx(B[31:16]),
       .Ay(A[15:0]),
-      .By(B[15:0])
+      .By(B[15:0]),
+      .clk(clk),
+      .rst_acc(rst_acc),
+      .en_acc(en_acc),
+      .en(en_reg),
+      .SELXY(sel_xy)
       );
 
     list list0

@@ -11,7 +11,7 @@ Distâncias calculadas -> D=1 : 10550us
 Inserção em lista em hardware -> D=1 : 8358us
                                  D=0 : 50us
 
-Same thing mega scaled (só que não) -> D=1 : 2314us
+Same thing mega scaled (só que não) -> D=1 : 2457us
                                        D=0 : 33us
 
 Loucuras: (nem me atrevo a pôr prints nisto...)

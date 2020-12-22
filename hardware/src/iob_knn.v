@@ -31,6 +31,11 @@ module iob_knn
 
    `SIGNAL(INFO_OUT, `N_Neighbour*`LABEL*`NT_points)
    `SIGNAL_OUT(valid_control, 1)
+   `SIGNAL_OUT(en_acc, 1)
+   `SIGNAL_OUT(en_reg, 1)
+   `SIGNAL_OUT(rst_acc, 1)
+   `SIGNAL_OUT(rst_reg, 1)
+   `SIGNAL_OUT(sel_xy, 1)
 
    genvar i;
    genvar j;
@@ -54,7 +59,11 @@ module iob_knn
         .clk(clk),
         .rst(rst_int),
         .valid(valid_control),
-        .start(KNN_ENABLE)
+        .start(KNN_ENABLE),
+        .en_acc(en_acc),
+        .en_reg(en_reg),
+        .rst_acc(rst_acc),
+        .sel_xy(sel_xy)
         );
       end
     endgenerate
@@ -62,6 +71,10 @@ module iob_knn
     control FSM
        (
         .Data_Loaded(valid_control),
+        .en_acc(en_acc),
+        .en_reg(en_reg),
+        .rst_acc(rst_acc),
+        .sel_xy(sel_xy),
         .valid(valid),
         .clk(clk),
         .enable(KNN_ENABLE),
