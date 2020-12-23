@@ -21,11 +21,11 @@ else
 	scp $(FPGA_USER)@$(FPGA_SERVER):$(REMOTE_ROOT_DIR)/$(FPGA_DIR)/$(FPGA_FAMILY)/$(FPGA_LOG) $(FPGA_DIR)/$(FPGA_FAMILY)
 endif
 
-#doc:
-#	make -C document/$(DOC_TYPE) $(DOC_TYPE).pdf
+doc:
+	make -C $(DOC_DIR)/$(DOC_TYPE) $(DOC_TYPE).pdf
 
-#doc-clean:
-#	make -C document/$(DOC_TYPE) clean
+doc-clean:
+	make -C $(DOC_DIR)/$(DOC_TYPE) clean
 
 fpga-clean:
 ifeq ($(FPGA_SERVER), localhost)
@@ -35,4 +35,4 @@ else
 	ssh $(FPGA_USER)@$(FPGA_SERVER) 'cd $(USER)/$(REMOTE_ROOT_DIR); make clean SIM_SERVER=localhost FPGA_SERVER=localhost'
 endif
 
-clean: sim-clean fpga-clean #doc-clean
+clean: sim-clean fpga-clean doc-clean

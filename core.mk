@@ -55,6 +55,7 @@ endif
 #DOCUMENT
 #
 DOC_TYPE:=pb
+DOC_DIR:=submodules/TEX/document
 #DOC_TYPE:=ug
 INTEL ?=1
 XILINX ?=1
