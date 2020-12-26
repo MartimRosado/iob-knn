@@ -39,6 +39,9 @@ FPGA_USER ?=trainee
 ifeq ($(FPGA_FAMILY),ARTIX-7)
 	FPGA_COMP:=vivado
 	FPGA_PART:=xc7a35tcpg236-1
+else ifeq ($(FPGA_FAMILY),CYCLONEV-GT)
+	FPGA_COMP:=quartus
+	FPGA_PART:=5CGTFD9E5F35C7
 else
 	FPGA_COMP:=vivado
 	FPGA_PART:=xcku040-fbva676-1-c
@@ -55,7 +58,6 @@ endif
 #DOCUMENT
 #
 DOC_TYPE:=pb
-DOC_DIR:=submodules/TEX/document
 #DOC_TYPE:=ug
 INTEL ?=1
 XILINX ?=1

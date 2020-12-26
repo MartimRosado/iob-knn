@@ -22,10 +22,10 @@ else
 endif
 
 doc:
-	make -C $(DOC_DIR)/$(DOC_TYPE) $(DOC_TYPE).pdf
+	make -C document/$(DOC_TYPE) $(DOC_TYPE).pdf
 
 doc-clean:
-	make -C $(DOC_DIR)/$(DOC_TYPE) clean
+	make -C document/$(DOC_TYPE) clean
 
 fpga-clean:
 ifeq ($(FPGA_SERVER), localhost)
