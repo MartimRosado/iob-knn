@@ -1,3 +1,6 @@
+[submodule "submodules/TEX"]
+	path = submodules/TEX
+	url = git@github.com:IObundle/iob-tex.git
 [submodule "submodules/INTERCON"]
 	path = submodules/INTERCON
 	url = git@github.com:IObundle/iob-interconnect.git
@@ -5,6 +8,3 @@
 	path = submodules/LIB
 	url = git@github.com:MartimRosado/iob-lib.git
 	branch = master
-[submodule "submodules/TEX"]
-	path = submodules/TEX
-	url = git@github.com:IObundle/iob-tex.git
