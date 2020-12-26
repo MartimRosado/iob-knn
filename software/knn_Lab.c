@@ -24,7 +24,7 @@
 
 #define INFINITE ~0
 #define SHORT_AND 65535
-#define HW_Limit_TPoints 50
+#define HW_Limit_TPoints 200 //200 para correr na placa, 50 para BASYS3
 
 //
 //Data structures

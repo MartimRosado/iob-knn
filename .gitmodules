@@ -7,4 +7,4 @@
 	branch = master
 [submodule "submodules/TEX"]
 	path = submodules/TEX
-	url = git@github.com:MiguelAReis/iob-tex.git
+	url = git@github.com:IObundle/iob-tex.git
