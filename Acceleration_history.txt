@@ -21,7 +21,7 @@ Loucuras: (nem me atrevo a pôr prints nisto...)
 +++++++++++++++Testes com restrição de tamanho por causa de FPGA+++++++++++++++
 
 Basys3 100% capacidade --> 45 pontos em paralelo
-(outdated)
+(-------OUTDATED-------)
 Tclk = 23ns
 
 100 Data points + 100 Test points D=0 : 2065us
@@ -33,8 +33,21 @@ XCKU --> AES-KU040-DB-G 50% capacidade --> 200 pontos em paralelo
 
 Tclk = 8 ns (IOb-KNN)/ 10 ns (IOb-SoC-KNN)
 
+Algoritmo Original
+Conjunto Grande Dados D=1 : (I'm legally crazy, don't do this at work)
+Conjunto Grande Dados D=0 : 38931683 us
+100000 Data Points + 200 Test points D=0 : 77961236 us
+Conjunto Pequeno Dados D=1 : 212617 us
+Conjunto Pequeno Dados D=0 : 153 us
+
 Conjunto Pequeno Dados D=1 : 47070 us
+Conjunto Pequeno Dados D=0 : 44 us
 100    Data Points + 100 Test points D=0 : 1459 us
 1000   Data Points + 100 Test points D=0 : 2095 us
 100000 Data Points + 100 Test points D=0 : 71807 us
 100000 Data Points + 200 Test points D=0 : 73183 us
+100000 Data Points + 400 Test points D=0 : 146443 us
+100000 Data Points + 500 Test points D=0 : 219607 us
+100000 Data Points + 600 Test points D=0 : 219617 us
+100000 Data Points + 800 Test points D=0 : 292853 us
+100000 Data Points + 1000 Test points D=0 : 366039 us

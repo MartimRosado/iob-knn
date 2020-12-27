@@ -6,7 +6,7 @@
 #include "random.h" //random generator for bare metal
 
 //uncomment to use rand from C lib
-//#define cmwc_rand rand
+#define cmwc_rand rand
 
 #ifdef DEBUG //type make DEBUG=1 to print debug info
 #define S 12  //random seed
