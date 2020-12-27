@@ -19,7 +19,7 @@
 #define N 100000
 #define K 10
 #define C 4
-#define M 100
+#define M 200
 #endif
 
 #define INFINITE ~0
