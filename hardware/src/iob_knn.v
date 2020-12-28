@@ -29,7 +29,7 @@ module iob_knn
    `SIGNAL(write, 1)
    `COMB write = | wstrb;
 
-   `SIGNAL(INFO_OUT, `N_Neighbour*`LABEL*`NT_points)
+   `SIGNAL(INFO_OUT, N_Neighbour*LABEL*NT_points)
    `SIGNAL_OUT(valid_control, 1)
    `SIGNAL_OUT(en_acc, 1)
    `SIGNAL_OUT(en_reg, 1)
@@ -41,22 +41,22 @@ module iob_knn
    genvar j;
 
    generate
-     for (i = 0; i < `NT_points; i = i+1) begin
-      for (j = 0; j < `N_Neighbour; j = j + 1) begin
-        assign KNN_INFO[j+i*`N_Neighbour] = INFO_OUT[(j+1)*`LABEL+i*`N_Neighbour*`LABEL-1:j*`LABEL+i*`N_Neighbour*`LABEL];
+     for (i = 0; i < NT_points; i = i+1) begin
+      for (j = 0; j < N_Neighbour; j = j + 1) begin
+        assign KNN_INFO[j+i*N_Neighbour] = INFO_OUT[(j+1)*LABEL+i*N_Neighbour*LABEL-1:j*LABEL+i*N_Neighbour*LABEL];
       end
      end
    endgenerate
 
    //BLOCK KNN core & Size ajustable N Test-Point K Neighbour KNN Accelerator
    generate
-    for(i = 0; i < `NT_points; i = i+1) begin
-     knn_core knn
+    for(i = 0; i < NT_points; i = i+1) begin
+     knn_core #(.DATA_W(DATA_W), .LABEL(LABEL), .N_Neighbour(N_Neighbour)) knn
        (
         .A(KNN_A[i]),
         .B(KNN_B),
         .label(KNN_LABEL),
-        .Neighbour_info(INFO_OUT[(i+1)*`LABEL*`N_Neighbour-1:i*`LABEL*`N_Neighbour]),
+        .Neighbour_info(INFO_OUT[(i+1)*LABEL*N_Neighbour-1:i*LABEL*N_Neighbour]),
         .clk(clk),
         .rst(rst_int),
         .valid(valid_control),

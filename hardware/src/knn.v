@@ -4,14 +4,14 @@
 module knn_core
   #(
     parameter DATA_W = 32,
-              LABEL = 8,
-              N_Neighbour = 10
+    parameter LABEL = 8,
+    parameter N_Neighbour = 10
     )
    (
-    `INPUT(A, `DATA_W),
-    `INPUT(B, `DATA_W),
-    `INPUT(label, `LABEL),
-    `OUTPUT(Neighbour_info, `LABEL*`N_Neighbour),
+    `INPUT(A, DATA_W),
+    `INPUT(B, DATA_W),
+    `INPUT(label, LABEL),
+    `OUTPUT(Neighbour_info, LABEL*N_Neighbour),
     `INPUT(clk, 1),
     `INPUT(rst, 1),
     `INPUT(valid, 1),
@@ -22,9 +22,9 @@ module knn_core
     `INPUT(sel_xy, 1)
     );
 
-    `SIGNAL_OUT(DIST_OUT, `DATA_W)
+    `SIGNAL_OUT(DIST_OUT, DATA_W)
 
-    dist_core dist1
+    dist_core #(.DATA_W(DATA_W)) dist1
       (
       .DIST_OUT(DIST_OUT),
       .Ax(A[31:16]),
@@ -38,7 +38,7 @@ module knn_core
       .SELXY(sel_xy)
       );
 
-    list list0
+    list #(.DATA_W(DATA_W), .N_Neighbour(N_Neighbour), .LABEL(LABEL)) list0
       (
         .Neighbour_info_out(Neighbour_info),
         .Dist_candidate(DIST_OUT),

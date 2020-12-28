@@ -4,13 +4,13 @@
 module list_element0
   #(
     parameter DATA_W = 32,
-              LABEL = 8
+    parameter LABEL = 8
     )
    (
     `OUTPUT(Neighbour_info, DATA_W+LABEL),
     `OUTPUT(write_L, 1),
-    `INPUT(Dist_candidate, `DATA_W),
-    `INPUT(label_candidate, `LABEL),
+    `INPUT(Dist_candidate, DATA_W),
+    `INPUT(label_candidate, LABEL),
     `INPUT(valid, 1),
     `INPUT(rst, 1),
     `INPUT(start, 1),

@@ -4,20 +4,19 @@
 module list
    #(
     parameter DATA_W = 32,
-              N_Neighbour = 10,
-              LABEL = 8
+    parameter N_Neighbour = 10,
+    parameter LABEL = 8
     )
    (
     `OUTPUT(Neighbour_info_out, LABEL*N_Neighbour),
-    `INPUT(Dist_candidate, `DATA_W),
-    `INPUT(label_candidate, `LABEL),
+    `INPUT(Dist_candidate, DATA_W),
+    `INPUT(label_candidate, LABEL),
     `INPUT(valid, 1),
     `INPUT(rst, 1),
     `INPUT(start, 1),
     `INPUT (clk, 1)
     );
 
-    `SIGNAL(write_previous, 1)
     `SIGNAL(write_L, N_Neighbour)
     `SIGNAL(Neighbour_info, (DATA_W+LABEL)*N_Neighbour)
     `SIGNAL(Neighbour_info_LABEL, LABEL*N_Neighbour)
@@ -27,12 +26,12 @@ module list
     genvar i;
 
     generate
-      for (i = `N_Neighbour; i > 0; i = i-1) begin
+      for (i = N_Neighbour; i > 0; i = i-1) begin
        assign Neighbour_info_LABEL[(i*LABEL)-1:((i-1)*LABEL)] = Neighbour_info[(i*(DATA_W+LABEL))-DATA_W-1:(i-1)*(DATA_W+LABEL)];
       end
     endgenerate
 
-    list_element0 list0
+    list_element0 #(.DATA_W(DATA_W), .LABEL(LABEL)) list0
     (
      .Neighbour_info(Neighbour_info[(DATA_W+LABEL)-1:0]),
      .write_L(write_L[0]),
@@ -46,7 +45,7 @@ module list
 
     generate
       for(i = 1; i < N_Neighbour; i = i + 1) begin
-        list_element list
+        list_element #(.DATA_W(DATA_W), .LABEL(LABEL)) list
         (
          .Neighbour_info(Neighbour_info[(DATA_W+LABEL)*(i+1)-1:(DATA_W+LABEL)*i]),
          .write_L(write_L[i]),
@@ -61,7 +60,5 @@ module list
          );
       end
     endgenerate
-
-    assign write_previous = 1'b0;
 
 endmodule
