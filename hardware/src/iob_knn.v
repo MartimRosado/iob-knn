@@ -7,7 +7,7 @@ module iob_knn
   #(
     parameter ADDR_W = `KNN_ADDR_W, //NODOC Address width
     parameter DATA_W = `DATA_W, //NODOC Data word width
-    parameter LABEL = `LABEL,
+    parameter LABEL = `LABEL, //NODOC Label width
     parameter N_Neighbour = `N_Neighbour,
     parameter NT_points = `NT_points,
     parameter WDATA_W = `KNN_WDATA_W //NODOC Data word width on writes
@@ -48,6 +48,7 @@ module iob_knn
      end
    endgenerate
 
+   //BLOCK KNN core & Size ajustable N Test-Point K Neighbour KNN Accelerator
    generate
     for(i = 0; i < `NT_points; i = i+1) begin
      knn_core knn
@@ -68,6 +69,7 @@ module iob_knn
       end
     endgenerate
 
+    //BLOCK Control & State Machine controlling the KNN data flow
     control FSM
        (
         .Data_Loaded(valid_control),
@@ -88,9 +90,5 @@ module iob_knn
    `REG_AR(clk, rst, 0, ready_int, valid)
 
    `SIGNAL2OUT(ready, ready_int)
-
-   //rdata signal
-   //`COMB begin
-   //end
 
 endmodule
