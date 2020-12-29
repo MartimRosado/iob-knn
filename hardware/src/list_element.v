@@ -20,8 +20,8 @@ module list_element
     );
 
     `SIGNAL(Write_l, 1)
-    `SIGNAL(Reg_out, 40)
-    `SIGNAL(Reg_in, 40)
+    `SIGNAL(Reg_out, DATA_W+LABEL)
+    `SIGNAL(Reg_in, DATA_W+LABEL)
 
     `COMB begin
 
