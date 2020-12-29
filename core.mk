@@ -31,9 +31,9 @@ SIM_DIR ?=hardware/simulation/$(SIMULATOR)
 #FPGA
 #
 #FPGA_FAMILY ?=CYCLONEV-GT
-FPGA_FAMILY ?=ARTIX-7
-FPGA_SERVER ?=localhost
-#FPGA_SERVER ?=pudim-flan.iobundle.com
+FPGA_FAMILY ?=XCKU
+#FPGA_SERVER ?=localhost
+FPGA_SERVER ?=pudim-flan.iobundle.com
 FPGA_USER ?=trainee
 
 ifeq ($(FPGA_FAMILY),ARTIX-7)
@@ -48,6 +48,9 @@ else
 endif
 FPGA_DIR ?=$(KNN_DIR)/hardware/fpga/$(FPGA_COMP)
 
+
+
+
 ifeq ($(FPGA_COMP),vivado)
 FPGA_LOG:=vivado.log
 else ifeq ($(FPGA_COMP),quartus)
@@ -57,9 +60,9 @@ endif
 #
 #DOCUMENT
 #
-DOC_TYPE:=pb
-#DOC_TYPE:=ug
-INTEL ?=1
+#DOC_TYPE:=pb
+DOC_TYPE:=ug
+INTEL ?=0
 XILINX ?=1
 
 VLINE:="V$(VERSION)"
