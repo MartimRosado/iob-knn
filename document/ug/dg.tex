@@ -1,1 +1,12 @@
-This section explains the correct use of the drivers 
+\noindent This section explains the correct use of the drivers.
+
+\noindent The KNN module comes with a library and its respective header file.
+
+\noindent The library has a reset, a start and a stop function to control the sections of the algorthim execution.
+
+\noindent The module is ready to work with bi-dimensional points with a LABEL sized label. Each of the points coordinates should be no more than half the dimension of the CPU data width.
+
+\noindent The module is ready to work with NT\_points Test Points simultaneously. When the user desires to change the points used the module should be reset. Afterwards the user should upload new NT\_points Test Points and only then should the module be started. At this point the user uploads the Data Points. The module is then stopped by the user and afterwards the neighbours labels can be read and the user is free to repeat the process again.
+
+\noindent Beware that when loading Test Points and reading labels, the user should provide the driver with the appropriate offsets to determine which points are being written/read. When reading, a second offset should be used to specify which neighbour is being read as well as a value indicating how many points are being used in parallel.
+
