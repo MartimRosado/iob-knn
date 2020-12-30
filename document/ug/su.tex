@@ -1,0 +1,16 @@
+This sections shows the speed up of the alghorithm, using different parameters, when using KNN and when using software only.
+\begin{table}[H]
+\begin{minipage}{\linewidth}
+\centering
+\begin{tabular}{|lccr|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Parameters}} & \multicolumn{1}{c|}{\textbf{Software}} & \multicolumn{1}{c|}{\textbf{KNN}} & \multicolumn{1}{c|}{\textbf{Speedup}} \\ \hline
+\rowcolor{iob-blue}
+100000 Datapoints + 100 Test Points                                          & 38931683us                                      & 71807us                                 & 542.17x                                     \\
+100000 Datapoints + 200 Test Points                                           & 77961236us                                      & 73183us                                 &  1065.29x                                     \\ \hline
+\end{tabular}
+\end{minipage}
+\caption{Speed ups using different parameters}
+\end{table}
+
+These tests were performed without debugging prints for a more realistic execution time. The execution time with KNN starts stabilizing at around 73000us.
