@@ -27,6 +27,10 @@ doc:
 doc-clean:
 	make -C document/$(DOC_TYPE) clean
 
+doc-pdfclean: 
+	make -C document/$(DOC_TYPE) pdf-clean
+
+
 fpga-clean:
 ifeq ($(FPGA_SERVER), localhost)
 	make -C $(FPGA_DIR) clean
@@ -35,4 +39,4 @@ else
 	ssh $(FPGA_USER)@$(FPGA_SERVER) 'cd $(USER)/$(REMOTE_ROOT_DIR); make clean SIM_SERVER=localhost FPGA_SERVER=localhost'
 endif
 
-clean: sim-clean fpga-clean doc-clean
+clean: sim-clean fpga-clean doc-clean doc-pdfclean

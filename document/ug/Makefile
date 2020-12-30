@@ -26,4 +26,8 @@ bd_tab.tex: $(KNN_HW_DIR)/src/iob_knn.v
 clean: texclean
 	@rm -f $(IS_TAB) $(REG_TAB) $(BD_TAB)
 
+pdf-clean: 
+	rm -f $(DOC_TYPE).pdf
+
+
 .PHONY: clean
