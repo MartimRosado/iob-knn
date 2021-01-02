@@ -27,10 +27,10 @@ module knn_core
     dist_core #(.DATA_W(DATA_W)) dist1
       (
       .DIST_OUT(DIST_OUT),
-      .Ax(A[31:16]),
-      .Bx(B[31:16]),
-      .Ay(A[15:0]),
-      .By(B[15:0]),
+      .Ax(A[DATA_W-1:DATA_W/2]),
+      .Bx(B[DATA_W-1:DATA_W/2]),
+      .Ay(A[DATA_W/2-1:0]),
+      .By(B[DATA_W/2-1:0]),
       .clk(clk),
       .rst_acc(rst_acc),
       .en_acc(en_acc),
